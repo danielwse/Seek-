@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'user_sign_in_form.dart';
 
 class ChatSignIn extends StatelessWidget {
   
@@ -32,7 +33,7 @@ class ChatSignIn extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                onPressed: () => null,//_UserSignIn(context),
+                onPressed: () => _userSignIn(context),
                 color: Color(0xFF04C9F1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
@@ -58,6 +59,13 @@ class ChatSignIn extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+
+  void _userSignIn(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute<void>(
+      fullscreenDialog: true,
+      builder: (context) => UserSignIn(),
     );
   }
 }
