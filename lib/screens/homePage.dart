@@ -75,28 +75,6 @@ class _HomePageState extends State<HomePage> {
           )
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.create),
-            title: Text('Connect'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text('Chat'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tag_faces),
-            title: Text('Tips'),
-          ),
-        ],
-        selectedItemColor: Colors.amber[800],
-    ),
     );
   }
 
