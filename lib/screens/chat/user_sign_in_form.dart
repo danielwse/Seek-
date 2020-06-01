@@ -34,10 +34,16 @@ class _UserSignInState extends State<UserSignIn> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: null,//_buildChildren(),
+            children: _buildChildren(),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildChildren() {
+    return [
+      Container(),
+    ];
   }
 }
