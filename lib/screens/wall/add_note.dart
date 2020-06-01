@@ -79,17 +79,24 @@ class DecoratedTextField extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
+          Column(children: <Widget>[
+            FlatButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Icon(Icons.close, size: 40)),
+              Text('Cancel')
+          ],),
           Spacer(),
-          FlatButton(
+          Column(children: <Widget>[
+            FlatButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Icon(Icons.check, size: 40)),
+              Text('Post')
+          ],),
+          
         ],
       ),
       //DemoToggleButtons(),
