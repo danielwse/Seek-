@@ -24,12 +24,12 @@ class _AddNoteState extends State<AddNote> {
         onPressed: () {
           bottomSheetController = showBottomSheet(
               context: context, builder: (context) => BottomSheetWidget());
-          bottomSheetController.closed.then((value) {
-          showFloatingActionButton(false);
-          });
+          // bottomSheetController.closed.then((value) {
+          // showFloatingActionButton(false);
+          // });
 
-          bottomSheetController.close();
-          showFloatingActionButton(true);
+          // bottomSheetController.close();
+          // showFloatingActionButton(true);
         });
   }
 
@@ -101,7 +101,6 @@ class _UserMessageState extends State<UserMessage> {
   void dispose() {
     // Clean up the controller when the widget is disposed.
     messageController.dispose();
-    super.dispose();
     titleController.dispose();
     super.dispose();
   }
