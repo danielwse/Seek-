@@ -112,7 +112,7 @@ class _UserSignInState extends State<UserSignIn> {
     });
     final newFocus = _phone.isNotEmpty
         ? _phoneFocusNode
-        : _nameFocusNode;
+        : FocusNode();
     FocusScope.of(context).requestFocus(newFocus);
   }
 
