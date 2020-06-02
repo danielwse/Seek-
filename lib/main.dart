@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   final _pageOptions = [
     HomePage(),
     NotePage(),
-    AddNote(),
+    ChatSignIn(),
     ChatSignIn()
   ];
   @override 
