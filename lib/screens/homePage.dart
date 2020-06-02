@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'chat/user_sign_in_form.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
@@ -24,6 +26,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
+    final homeIcon = SizedBox(
+      height: 200.0,
+      child: Image.asset(
+        "assets/images/counselling.png",
+        fit: BoxFit.contain,
+      ),
+    );
+
     final chatButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
@@ -31,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       child: MaterialButton(
         minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        onPressed: (){} /*moveToChatPage*/,
+        onPressed: moveToUserSignInPage,
         child: Text("Talk to Somebody",
             textAlign: TextAlign.center,
             style: GoogleFonts.indieFlower(
@@ -58,7 +68,8 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                SizedBox(height: 230.0),
+                SizedBox(height: 150),
+                homeIcon,
                 Text('Seek,' ,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSansCondensed(
@@ -78,8 +89,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /*void moveToChatPage() {
+  moveToUserSignInPage() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ChatSignIn()));
-  }*/
+        context, MaterialPageRoute(builder: (context) => UserSignIn()));
+  }
 }

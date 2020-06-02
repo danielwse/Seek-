@@ -20,9 +20,13 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
 
   @override
   Widget build(BuildContext context) {
+
     final counsellorIcon = SizedBox(
       height: 200.0,
-      child: Text('will add in an icon'),
+      child: Image.asset(
+        "assets/images/heart.png",
+        fit: BoxFit.contain,
+      ),
     );
 
     final emailField = TextFormField(
@@ -82,7 +86,7 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
         onPressed: logIn,
         child: Text("Login",
             textAlign: TextAlign.center,
-            style: GoogleFonts.permanentMarker(
+            style: GoogleFonts.indieFlower(
               fontSize: 20,
               color: Colors.white),
                 //color: Colors.white, fontWeight: FontWeight.bold)
@@ -109,6 +113,7 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  SizedBox(height: 70.0),
                   counsellorIcon,
                   SizedBox(height: 20.0),
                   emailField,

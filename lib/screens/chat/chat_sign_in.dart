@@ -20,6 +20,14 @@ class ChatSignIn extends StatelessWidget {
   
   Widget _bodyContent(BuildContext context) {
 
+    final chatImage = SizedBox(
+      height: 200.0,
+      child: Image.asset(
+        "assets/images/chatSignInIcon.png",
+        fit: BoxFit.contain,
+      ),
+    );
+    
     final chatButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
@@ -41,13 +49,14 @@ class ChatSignIn extends StatelessWidget {
     return Stack(
       overflow: Overflow.visible,
       children: <Widget>[
-        SizedBox(height: 500.0),
-        Text("Will add image here"),
+        SizedBox(height: 100),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Spacer(),
+            SizedBox(height: 170.0),
+            chatImage,
+            SizedBox(height: 50.0),
             Container(
               margin: EdgeInsets.only(
                 left: 60,
