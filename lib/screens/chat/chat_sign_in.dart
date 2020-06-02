@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'user_sign_in_form.dart';
+import 'counsellor_sign_in.dart';
 
 class ChatSignIn extends StatelessWidget {
   
@@ -53,7 +54,7 @@ class ChatSignIn extends StatelessWidget {
                     decoration: TextDecoration.underline,
                   ),
                 ),
-                onPressed: () => null,
+                onPressed: () => _counsellorSignIn(context),
               ),
             ),
           ],
@@ -66,6 +67,13 @@ class ChatSignIn extends StatelessWidget {
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
       builder: (context) => UserSignIn(),
+    ));
+  }
+
+  void _counsellorSignIn(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute<void>(
+      fullscreenDialog: true,
+      builder: (context) => CounsellorSignIn(),
     ));
   }
 }
