@@ -1,13 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:seek/screens/chat/auth.dart';
 import 'holdingPage.dart';
-import 'auth.dart';
-import 'auth_provider.dart';
 
 class CounsellorSignIn extends StatefulWidget {
-  const CounsellorSignIn({this.onSignedIn});
-  final VoidCallback onSignedIn;
+  final BaseAuth auth;
+
+  CounsellorSignIn({
+    @required this.auth,
+  });
 
   @override
   _CounsellorSignInState createState() => _CounsellorSignInState();
@@ -35,16 +37,21 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
 
   Future<void> validateAndSubmit() async {
     if (validateAndSave()) {
+      print(_password);
       try {
-        final BaseAuth auth = AuthProvider.of(context).auth;
         if (_formType == FormType.login) {
-          final String userId = await auth.signInWithEmailAndPassword(_email, _password);
-          print('Signed in: $userId');
+          final User userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
+          print('Signed in: $userId.uid');
+          print(userId.uid);
+          Firestore.instance.collection('counsellors').document(userId.uid).setData({
+            "email": _email,
+            "timestamp": FieldValue.serverTimestamp()
+          });
           Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HoldingPage()));
+            context, MaterialPageRoute(builder: (context) => HoldingPage(auth: widget.auth,)));
         }
-        widget.onSignedIn();
       } catch (e) {
+        print("E");
         print('Error: $e');
       }
     }

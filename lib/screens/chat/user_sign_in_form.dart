@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,20 +40,19 @@ class _UserSignInState extends State<UserSignIn> {
                 ),
                 Container(
                   child: Text(
-                      "Please note: Phone number is only required for verification purposes and for emergency situations.Your data will only be retained for the duration of the chat. Thank you."
-                  ),
+                      "Please note: Phone number is only required for verification purposes and for emergency situations.Your data will only be retained for the duration of the chat. Thank you."),
                   padding: EdgeInsets.all(5.0),
                 ),
                 Offstage(
                   offstage: !(_phoneValid && _nameValid),
-                  child: Container( 
+                  child: Container(
                     child: Column(
-                      children: <Widget> [
+                      children: <Widget>[
                         SizedBox(height: 15.0),
                         suicidalQns(),
                         Offstage(
                           offstage: !_showSOS,
-                          child: Container( 
+                          child: Container(
                             color: Colors.grey[100],
                             child: Text(
                               sosText,
@@ -64,7 +64,7 @@ class _UserSignInState extends State<UserSignIn> {
                         abuseQns(),
                         Offstage(
                           offstage: !_showAbuse,
-                          child: Container( 
+                          child: Container(
                             color: Colors.grey[100],
                             child: Text(
                               abuseText,
@@ -90,8 +90,11 @@ class _UserSignInState extends State<UserSignIn> {
                     Spacer(),
                     RaisedButton(
                       color: Colors.green,
-                      child: Text((_showSOS || _showAbuse) ? "Please direct me \nto SOS hotline" : "Prefer to talk \nthrough phone",
-                      textAlign: TextAlign.center,
+                      child: Text(
+                        (_showSOS || _showAbuse)
+                            ? "Please direct me \nto SOS hotline"
+                            : "Prefer to talk \nthrough phone",
+                        textAlign: TextAlign.center,
                       ),
                       onPressed: () => _call(),
                     ),
@@ -100,10 +103,11 @@ class _UserSignInState extends State<UserSignIn> {
                       offstage: !(_suicideAns && _abuseAns && _distressAns),
                       child: RaisedButton(
                         color: Colors.blue,
-                        child: Text("Enter\nsafe chat",
+                        child: Text(
+                          "Enter\nSeek chat",
                           textAlign: TextAlign.center,
                         ),
-                        onPressed: () {},
+                        onPressed: () => _enterChat(),
                       ),
                     ),
                     Spacer(),
@@ -160,7 +164,8 @@ class _UserSignInState extends State<UserSignIn> {
       decoration: InputDecoration(
         labelText: "Phone number",
         hintText: "Local phone number",
-        errorText: _showPhoneError ? "Please key in a valid phone number" : null,
+        errorText:
+            _showPhoneError ? "Please key in a valid phone number" : null,
         fillColor: Colors.white,
         filled: true,
         contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
@@ -304,7 +309,7 @@ class _UserSignInState extends State<UserSignIn> {
       ),
     );
   }
-  
+
   bool _distressQnsYes = false;
   bool _distressQnsNo = false;
   bool _distressAns = false;
@@ -359,9 +364,49 @@ class _UserSignInState extends State<UserSignIn> {
     );
   }
 
-  final String suicidalQuestion = "Do you have any thoughts on hurting youself or others, or commiting suicide?";
+  final String suicidalQuestion =
+      "Do you have any thoughts on hurting youself or others, or commiting suicide?";
   final String abuseQuestion = "Are you experiencing any forms of abuse?";
-  final String distressQuestion = "Are you experiencing overwhelming levels of distress, sadness, grief, anxiety or fear?";
-  final String sosText = "If you feel you may be at immediate risk of harming yourself, call 995 or approach the A&E department of your nearest hospital. Alternatively, call the 24-hour SOS hotline at 1800-221 4444.";
-  final String abuseText = "If you feel you may be at immediate risk of being harmed, call 999 or approach the nearest police station. Alternatively, call the 24-hour SOS hotline at 1800-221 4444.";
+  final String distressQuestion =
+      "Are you experiencing overwhelming levels of distress, sadness, grief, anxiety or fear?";
+  final String sosText =
+      "If you feel you may be at immediate risk of harming yourself, call 995 or approach the A&E department of your nearest hospital. Alternatively, call the 24-hour SOS hotline at 1800-221 4444.";
+  final String abuseText =
+      "If you feel you may be at immediate risk of being harmed, call 999 or approach the nearest police station. Alternatively, call the 24-hour SOS hotline at 1800-221 4444.";
+
+  void _enterChat() {
+    Firestore.instance
+      .collection('chat')
+      .document(_phone)
+      .setData({
+        "name": _name,
+        "phone": _phone,
+        "distress": _showDistress,
+        "time": FieldValue.serverTimestamp()
+    });
+    Firestore.instance
+        .collection('chat')
+        .document(_phone)
+        .collection('Messages')
+        .document('init')
+        .setData({
+          "from": "",
+          "message": "Welcome to Seek chat, a counsellor or trained practioner will join you shortly. Thank you for your patience.",
+          "time": FieldValue.serverTimestamp(),
+        });
+    /*
+    Navigator.of(context).push(MaterialPageRoute<void>(
+      fullscreenDialog: true,
+      builder: (context) => null//(),
+    ));
+    */
+  }
 }
+// try {
+//   Firestore.instance
+//       .collection('chat')
+//       .document('TEST')
+//       .delete();
+// } catch (e) {
+//   print(e.toString());
+// }
