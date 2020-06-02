@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'auth.dart';
-import 'auth_provider.dart';
 
 class HoldingPage extends StatelessWidget {
-  const HoldingPage({this.onSignedOut});
-  final VoidCallback onSignedOut;
+  //const HoldingPage({this.onSignedOut});
+  //final VoidCallback onSignedOut;
+  final BaseAuth auth;
+
+  HoldingPage({
+    @required this.auth,
+    //this.onSignedOut,
+  });
 
   Future<void> _signOut(BuildContext context) async {
     try {
-      final BaseAuth auth = AuthProvider.of(context).auth;
       await auth.signOut();
-      onSignedOut();
+      //onSignedOut();
+      Navigator.of(context).pop();
     } catch (e) {
       print(e);
     }

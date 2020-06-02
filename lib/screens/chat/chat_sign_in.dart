@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:seek/screens/chat/auth.dart';
+import 'package:seek/screens/chat/root_page.dart';
 import 'user_sign_in_form.dart';
-import 'counsellor_sign_in.dart';
 
 class ChatSignIn extends StatelessWidget {
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +94,9 @@ class ChatSignIn extends StatelessWidget {
   void _counsellorSignIn(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
-      builder: (context) => CounsellorSignIn(),
+      builder: (context) => RootPage(
+        auth: Auth(),
+      ),
     ));
   }
 }
