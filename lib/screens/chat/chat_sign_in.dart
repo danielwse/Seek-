@@ -49,7 +49,6 @@ class ChatSignIn extends StatelessWidget {
     return Stack(
       overflow: Overflow.visible,
       children: <Widget>[
-        SizedBox(height: 100),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
