@@ -33,9 +33,12 @@ class _NotePageState extends State<NotePage> {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView(
+
+    return ListView.builder(
       padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+      itemBuilder: (context, index) => _buildListItem(context, snapshot[index]),
+      // itemBuilder: snapshot.map((data) => _buildListItem(context, data)),
+      itemCount: snapshot.length,
     );
   }
 
