@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seek/screens/chat/chat_sign_in.dart';
 import 'package:seek/screens/wall/add_note.dart';
 import 'screens/homePage.dart';
-
+import 'screens/wall/note_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +19,8 @@ class _MyAppState extends State<MyApp> {
    int _selectedPage = 0;
   final _pageOptions = [
     HomePage(),
-    AddNote(),
+    NotePage(),
+    ChatSignIn(),
     ChatSignIn()
   ];
   @override 
@@ -30,7 +31,6 @@ class _MyAppState extends State<MyApp> {
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.transparent, 
         currentIndex: _selectedPage,
         onTap: (int index) { 
           setState(() {

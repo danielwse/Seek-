@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'chat/user_sign_in_form.dart';
-
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
+class HoldingPage extends StatefulWidget {
+  HoldingPage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -18,21 +16,13 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HoldingPageState createState() => _HoldingPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HoldingPageState extends State<HoldingPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    final homeIcon = SizedBox(
-      height: 200.0,
-      child: Image.asset(
-        "assets/images/counselling.png",
-        fit: BoxFit.contain,
-      ),
-    );
 
     final chatButton = Material(
       elevation: 5.0,
@@ -41,8 +31,8 @@ class _HomePageState extends State<HomePage> {
       child: MaterialButton(
         minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        onPressed: moveToUserSignInPage,
-        child: Text("Talk to Somebody",
+        onPressed: (){} /*moveToChatPage*/,
+        child: Text("Chat with Seeker",
             textAlign: TextAlign.center,
             style: GoogleFonts.indieFlower(
               fontSize: 25,
@@ -68,14 +58,13 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                SizedBox(height: 150),
-                homeIcon,
-                Text('Seek,' ,
+                SizedBox(height: 230.0),
+                Text('Please hold on' ,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSansCondensed(
                 fontSize: 30,
                 color: Colors.black),),
-                Text('the safe space you need',
+                Text('Matching you with a Seeker...',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSansCondensed(
                 fontSize: 30,
@@ -89,8 +78,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  moveToUserSignInPage() {
+  /*void moveToChatPage() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserSignIn()));
-  }
+        context, MaterialPageRoute(builder: (context) => ChatPage()));
+  }*/
 }
