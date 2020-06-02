@@ -30,7 +30,6 @@ class _MyAppState extends State<MyApp> {
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.transparent, 
         currentIndex: _selectedPage,
         onTap: (int index) { 
           setState(() {
