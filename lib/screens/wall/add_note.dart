@@ -179,7 +179,7 @@ class _UserMessageState extends State<UserMessage> {
               decoration: InputDecoration.collapsed(
                 hintText: 'Encourage and Enrich!',
               ))),
-      ColorPicker()
+      // ColorPicker()
     ]);
   }
 }
