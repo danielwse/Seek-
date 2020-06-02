@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:random_color/random_color.dart';
 
 class AddNote extends StatefulWidget {
   AddNote({Key key}) : super(key: key);
@@ -124,6 +125,7 @@ class _UserMessageState extends State<UserMessage> {
                           firestoreInstance.collection("wall").add({
                             "message": messageController.text,
                             "title": titleController.text,
+                            "color": RandomColor().randomColor(colorBrightness: ColorBrightness.light).value,
                             "timestamp": FieldValue.serverTimestamp()
                           });
                           Navigator.of(context).pop();
