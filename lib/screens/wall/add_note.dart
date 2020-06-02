@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:random_color/random_color.dart';
 
 class AddNote extends StatefulWidget {
   AddNote({Key key}) : super(key: key);
@@ -12,22 +14,24 @@ class AddNote extends StatefulWidget {
 class _AddNoteState extends State<AddNote> {
   bool showFab = true;
   PersistentBottomSheetController bottomSheetController;
+
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-        child: Icon(Icons.add),
-        mini: true,
-        backgroundColor: Colors.lightBlue,
-        onPressed: () {
-          bottomSheetController = showBottomSheet(
-              context: context, builder: (context) => BottomSheetWidget());
-          // bottomSheetController.closed.then((value) {
-          // showFloatingActionButton(false);
-          // });
-
-          //bottomSheetController.close();
-          // showFloatingActionButton(true);
-        });
+    return showFab
+        ? FloatingActionButton(
+            child: Icon(Icons.add),
+            mini: true,
+            backgroundColor: Colors.lightBlue,
+            onPressed: () {
+              var bottomSheetController = showBottomSheet(
+                  context: context, builder: (context) => BottomSheetWidget());
+              showFloatingActionButton(false);
+              bottomSheetController.closed.then((value) {
+                showFloatingActionButton(true);
+              });
+            },
+          )
+        : Container();
   }
 
   void showFloatingActionButton(bool value) {
@@ -65,122 +69,120 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                         color: Colors.grey[300],
                         spreadRadius: 5)
                   ]),
-              child: Column(children: [DecoratedTextField()]),
+              child: Column(children: [UserMessage()]),
             )
           ]),
     ));
   }
 }
-
-class DecoratedTextField extends StatelessWidget {
+class UserMessage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Column(children: <Widget>[
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Icon(Icons.close, size: 40)),
-              Text('Cancel')
-          ],),
-          Spacer(),
-          Column(children: <Widget>[
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Icon(Icons.check, size: 40)),
-              Text('Post')
-          ],),
-          
-        ],
-      ),
-      //DemoToggleButtons(),
-      Container(
-        height: 200,
-        alignment: Alignment.topCenter,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        decoration: BoxDecoration(
-            color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
-        child: TextField(
-            maxLines: null,
-            autocorrect: true,
-            showCursor: true,
-            maxLengthEnforced: true,
-            maxLength: 300,
-            textAlign: TextAlign.start,
-            decoration: InputDecoration.collapsed(
-              hintText: 'Encourage and Enrich!',
-            )),
-      ),
-      ColorPicker()
-    ]);
-  }
+  _UserMessageState createState() => _UserMessageState();
 }
 
-class DemoToggleButtons extends StatefulWidget {
-  @override
-  _DemoToggleButtonsState createState() => _DemoToggleButtonsState();
-}
-
-class _DemoToggleButtonsState extends State<DemoToggleButtons> {
-  List<bool> isSelected = [true, false];
-  FocusNode focusNodeButton1 = FocusNode();
-  FocusNode focusNodeButton2 = FocusNode();
-  List<FocusNode> focusToggle;
-
-  @override
-  void initState() {
-    super.initState();
-    focusToggle = [focusNodeButton1, focusNodeButton2];
-  }
+// Define a corresponding State class.
+// This class holds the data related to the Form.
+class _UserMessageState extends State<UserMessage> {
+  final firestoreInstance = Firestore.instance;
+   bool isButtonEnabled = false;
+  // Create a text controller and use it to retrieve the current value
+  // of the TextField.
+  final messageController = TextEditingController();
+  final titleController = TextEditingController();
 
   @override
   void dispose() {
-    // Clean up the focus node when the Form is disposed.
-    focusNodeButton1.dispose();
-    focusNodeButton2.dispose();
+    // Clean up the controller when the widget is disposed.
+    messageController.dispose();
+    titleController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ToggleButtons(
-        color: Colors.greenAccent,
-        selectedColor: Colors.white,
-        //fillColor: Colors.purple,
-        // splashColor: Colors.lightBlue,
-        // highlightColor: Colors.lightBlue,
-        // borderColor: Colors.white,
-        // borderWidth: 5,
-        //selectedBorderColor: Colors.greenAccent,
-        // renderBorder: true,
-        borderRadius: BorderRadius.circular(10),
-        disabledColor: Colors.blueGrey,
-        disabledBorderColor: Colors.blueGrey,
-        focusColor: Colors.red,
-        focusNodes: focusToggle,
+    bool isEmpty() {
+      setState(() {
+        if ((messageController.text.isEmpty) ||
+            (titleController.text.isEmpty)) {
+          isButtonEnabled = false;
+        } else {
+          isButtonEnabled = true;
+        }
+      });
+      return isButtonEnabled;
+    }
+
+    return Column(children: <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Text("Anonymous", style: TextStyle(color: Colors.black)),
-          Text("Username", style: TextStyle(color: Colors.black)),
+          Spacer(),
+          Column(
+            children: <Widget>[
+              FlatButton(
+                  onPressed: isButtonEnabled
+                      ? () {
+                          firestoreInstance.collection("wall").add({
+                            "message": messageController.text,
+                            "title": titleController.text,
+                            "color": RandomColor().randomColor(colorBrightness: ColorBrightness.light).value,
+                            "timestamp": FieldValue.serverTimestamp()
+                          });
+                          Navigator.of(context).pop();
+                        }
+                      : null,
+                  child: Icon(Icons.check, size: 40)),
+              Text('Post')
+            ],
+          ),
         ],
-        isSelected: isSelected,
-        onPressed: (int index) {
-          setState(() {
-            for (int indexBtn = 0; indexBtn < isSelected.length; indexBtn++) {
-              if (indexBtn == index) {
-                isSelected[indexBtn] = true;
-              } else {
-                isSelected[indexBtn] = false;
-              }
-            }
-          });
-        });
+      ),
+      Container(
+          height: 80,
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+              color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+          child: TextField(
+              controller: titleController,
+              onChanged: (val) {
+                isEmpty();
+              },
+              textInputAction: TextInputAction.newline,
+              maxLines: null,
+              autocorrect: true,
+              showCursor: true,
+              maxLengthEnforced: true,
+              maxLength: 50,
+              textAlign: TextAlign.start,
+              decoration: InputDecoration.collapsed(
+                hintText: 'Title',
+              ))),
+      Container(
+          height: 150,
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+              color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+          child: TextField(
+              controller: messageController,
+              onChanged: (val) {
+                isEmpty();
+              },
+              textInputAction: TextInputAction.newline,
+              maxLines: null,
+              autocorrect: true,
+              showCursor: true,
+              maxLengthEnforced: true,
+              maxLength: 300,
+              textAlign: TextAlign.start,
+              decoration: InputDecoration.collapsed(
+                hintText: 'Encourage and Enrich!',
+              ))),
+      // ColorPicker()
+    ]);
   }
 }
 
@@ -234,25 +236,25 @@ class _ColorPickerState extends State<ColorPicker> {
   @override
   Widget build(BuildContext context) {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 62.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              OutlineButton(
-                onPressed: _openMainColorPicker,
-                child: const Text('Select Color'),
-              ),
-              SizedBox(width: 20),
-              CircleAvatar(
-                backgroundColor: _mainColor,
-                radius: 25.0,
-              ),
-              const SizedBox(width: 16.0),
-            ],
-          ),
-        ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 62.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OutlineButton(
+              onPressed: _openMainColorPicker,
+              child: const Text('Select Color'),
+            ),
+            SizedBox(width: 20),
+            CircleAvatar(
+              backgroundColor: _mainColor,
+              radius: 25.0,
+            ),
+            const SizedBox(width: 16.0),
+          ],
+        ),
+      ],
     );
   }
 }
