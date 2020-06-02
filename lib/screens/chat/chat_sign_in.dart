@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'user_sign_in_form.dart';
 import 'counsellor_sign_in.dart';
 
@@ -7,15 +8,41 @@ class ChatSignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Have a Chat',
+          style: TextStyle(fontSize: 30.0, wordSpacing: 5.0),
+        ),
+      ),
       body: _bodyContent(context),
-      backgroundColor: Colors.cyanAccent[100],
     );
   }
   
   Widget _bodyContent(BuildContext context) {
+
+    final chatButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(30.0),
+      color: Colors.brown,
+      child: MaterialButton(
+        minWidth: 170,
+        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+        onPressed: () => _userSignIn(context),
+        child: Text("Talk to Somebody",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.indieFlower(
+              fontSize: 25,
+              color: Colors.white),
+                //color: Colors.white, fontWeight: FontWeight.bold)
+                ),
+      ),
+    );
+
     return Stack(
       overflow: Overflow.visible,
       children: <Widget>[
+        SizedBox(height: 500.0),
+        Text("Will add image here"),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -26,22 +53,7 @@ class ChatSignIn extends StatelessWidget {
                 left: 60,
                 right: 60,
               ),
-              child: RaisedButton(
-                child: Text(
-                  'Talk to somebody',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onPressed: () => _userSignIn(context),
-                color: Color(0xFF04C9F1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(24.0),
-                  ),
-                ),
-              ),
+              child: chatButton,
             ),
             Spacer(),
             Container(
