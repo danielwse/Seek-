@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'auth.dart';
+import 'auth_provider.dart';
 
-class HoldingPage extends StatefulWidget {
-  HoldingPage({Key key, this.title}) : super(key: key);
+class HoldingPage extends StatelessWidget {
+  const HoldingPage({this.onSignedOut});
+  final VoidCallback onSignedOut;
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      final BaseAuth auth = AuthProvider.of(context).auth;
+      await auth.signOut();
+      onSignedOut();
+    } catch (e) {
+      print(e);
+    }
+  }
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
+/*  @override
   _HoldingPageState createState() => _HoldingPageState();
-}
+}*/
 
-class _HoldingPageState extends State<HoldingPage> {
+//class _HoldingPageState extends State<HoldingPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,25 @@ class _HoldingPageState extends State<HoldingPage> {
             textAlign: TextAlign.center,
             style: GoogleFonts.indieFlower(
               fontSize: 25,
+              color: Colors.white),
+                //color: Colors.white, fontWeight: FontWeight.bold)
+                ),
+      ),
+    );
+
+    final logoutButton = Material(
+      elevation: 5.0,
+      //borderRadius: BorderRadius.circular(30.0),
+      color: Colors.red[700],
+      child: MaterialButton(
+        height: 5,
+        minWidth: 100,
+        padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
+        onPressed: () => _signOut(context),
+        child: Text("Logout",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.indieFlower(
+              fontSize: 15,
               color: Colors.white),
                 //color: Colors.white, fontWeight: FontWeight.bold)
                 ),
@@ -71,6 +93,14 @@ class _HoldingPageState extends State<HoldingPage> {
                 color: Colors.black),),
                 SizedBox(height: 20.0),
                 chatButton,
+                SizedBox(height:270),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    logoutButton,
+                    SizedBox(width:20)
+                  ],),
                 ]
           )
         ),
