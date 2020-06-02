@@ -151,11 +151,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
   flutter_web_plugins:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
+=======
+>>>>>>> e6062a116e8171b20a9394b3a7bf5fd9fc61a367
   google_fonts:
     dependency: "direct main"
     description:

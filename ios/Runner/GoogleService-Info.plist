@@ -31,7 +31,11 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
+<<<<<<< HEAD
 	<string>1:744098022798:ios:8d59b5cd9f08df1ce5d0df</string>
+=======
+	<string>1:744098022798:ios:aaa5cfcf3d06dcc7e5d0df</string>
+>>>>>>> e6062a116e8171b20a9394b3a7bf5fd9fc61a367
 	<key>DATABASE_URL</key>
 	<string>https://seek-6e563.firebaseio.com</string>
 </dict>
