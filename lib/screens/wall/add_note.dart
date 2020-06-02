@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
-
 class AddNote extends StatefulWidget {
   AddNote({Key key}) : super(key: key);
 
@@ -14,23 +13,24 @@ class AddNote extends StatefulWidget {
 class _AddNoteState extends State<AddNote> {
   bool showFab = true;
   PersistentBottomSheetController bottomSheetController;
-  
+
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-        child: Icon(Icons.add),
-        mini: true,
-        backgroundColor: Colors.lightBlue,
-        onPressed: () {
-          bottomSheetController = showBottomSheet(
-              context: context, builder: (context) => BottomSheetWidget());
-          // bottomSheetController.closed.then((value) {
-          // showFloatingActionButton(false);
-          // });
-
-          // bottomSheetController.close();
-          // showFloatingActionButton(true);
-        });
+    return showFab
+        ? FloatingActionButton(
+            child: Icon(Icons.add),
+            mini: true,
+            backgroundColor: Colors.lightBlue,
+            onPressed: () {
+              var bottomSheetController = showBottomSheet(
+                  context: context, builder: (context) => BottomSheetWidget());
+              showFloatingActionButton(false);
+              bottomSheetController.closed.then((value) {
+                showFloatingActionButton(true);
+              });
+            },
+          )
+        : Container();
   }
 
   void showFloatingActionButton(bool value) {
@@ -48,7 +48,6 @@ class BottomSheetWidget extends StatefulWidget {
 
 class _BottomSheetWidgetState extends State<BottomSheetWidget> {
   @override
-  
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Container(
@@ -69,20 +68,12 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                         color: Colors.grey[300],
                         spreadRadius: 5)
                   ]),
-              child: Column(children: [DecoratedTextField()]),
+              child: Column(children: [UserMessage()]),
             )
           ]),
     ));
   }
 }
-
-class DecoratedTextField extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return UserMessage();
-  }
-}
-
 class UserMessage extends StatefulWidget {
   @override
   _UserMessageState createState() => _UserMessageState();
@@ -92,6 +83,7 @@ class UserMessage extends StatefulWidget {
 // This class holds the data related to the Form.
 class _UserMessageState extends State<UserMessage> {
   final firestoreInstance = Firestore.instance;
+   bool isButtonEnabled = false;
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final messageController = TextEditingController();
@@ -105,13 +97,12 @@ class _UserMessageState extends State<UserMessage> {
     super.dispose();
   }
 
-  bool isButtonEnabled = false;
-
   @override
   Widget build(BuildContext context) {
     bool isEmpty() {
       setState(() {
-        if ((messageController.text.isEmpty) || (titleController.text.isEmpty)) {
+        if ((messageController.text.isEmpty) ||
+            (titleController.text.isEmpty)) {
           isButtonEnabled = false;
         } else {
           isButtonEnabled = true;
@@ -124,28 +115,20 @@ class _UserMessageState extends State<UserMessage> {
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          // Column(
-          //   children: <Widget>[
-          //     FlatButton(
-          //         onPressed: () {
-          //           _AddNoteState.bottomSheetController.close();
-          //         },
-          //         child: Icon(Icons.close, size: 40)),
-          //     Text('Cancel')
-          //   ],
-          // ),
           Spacer(),
           Column(
             children: <Widget>[
               FlatButton(
-                  onPressed: isButtonEnabled ? () {
-                    firestoreInstance.collection("wall").add({
-                      "message": messageController.text,
-                      "title": titleController.text,
-                      "timestamp": FieldValue.serverTimestamp()
-                    });
-                    Navigator.of(context).pop();
-                  } : null,
+                  onPressed: isButtonEnabled
+                      ? () {
+                          firestoreInstance.collection("wall").add({
+                            "message": messageController.text,
+                            "title": titleController.text,
+                            "timestamp": FieldValue.serverTimestamp()
+                          });
+                          Navigator.of(context).pop();
+                        }
+                      : null,
                   child: Icon(Icons.check, size: 40)),
               Text('Post')
             ],
@@ -185,7 +168,6 @@ class _UserMessageState extends State<UserMessage> {
               controller: messageController,
               onChanged: (val) {
                 isEmpty();
-                print("CHANGES MADE!");
               },
               textInputAction: TextInputAction.newline,
               maxLines: null,
@@ -201,67 +183,6 @@ class _UserMessageState extends State<UserMessage> {
     ]);
   }
 }
-
-// class DemoToggleButtons extends StatefulWidget {
-//   @override
-//   _DemoToggleButtonsState createState() => _DemoToggleButtonsState();
-// }
-
-// class _DemoToggleButtonsState extends State<DemoToggleButtons> {
-//   List<bool> isSelected = [true, false];
-//   FocusNode focusNodeButton1 = FocusNode();
-//   FocusNode focusNodeButton2 = FocusNode();
-//   List<FocusNode> focusToggle;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     focusToggle = [focusNodeButton1, focusNodeButton2];
-//   }
-
-//   @override
-//   void dispose() {
-//     // Clean up the focus node when the Form is disposed.
-//     focusNodeButton1.dispose();
-//     focusNodeButton2.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ToggleButtons(
-//         color: Colors.greenAccent,
-//         selectedColor: Colors.white,
-//         //fillColor: Colors.purple,
-//         // splashColor: Colors.lightBlue,
-//         // highlightColor: Colors.lightBlue,
-//         // borderColor: Colors.white,
-//         // borderWidth: 5,
-//         //selectedBorderColor: Colors.greenAccent,
-//         // renderBorder: true,
-//         borderRadius: BorderRadius.circular(10),
-//         disabledColor: Colors.blueGrey,
-//         disabledBorderColor: Colors.blueGrey,
-//         focusColor: Colors.red,
-//         focusNodes: focusToggle,
-//         children: <Widget>[
-//           Text("Anonymous", style: TextStyle(color: Colors.black)),
-//           Text("Username", style: TextStyle(color: Colors.black)),
-//         ],
-//         isSelected: isSelected,
-//         onPressed: (int index) {
-//           setState(() {
-//             for (int indexBtn = 0; indexBtn < isSelected.length; indexBtn++) {
-//               if (indexBtn == index) {
-//                 isSelected[indexBtn] = true;
-//               } else {
-//                 isSelected[indexBtn] = false;
-//               }
-//             }
-//           });
-//         });
-//   }
-// }
 
 class ColorPicker extends StatefulWidget {
   _ColorPickerState createState() => _ColorPickerState();
