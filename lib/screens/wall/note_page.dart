@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:seek/screens/wall/add_note.dart';
 
 class NotePage extends StatefulWidget {
