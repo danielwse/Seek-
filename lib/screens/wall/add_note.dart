@@ -185,7 +185,6 @@ class _UserMessageState extends State<UserMessage> {
               controller: messageController,
               onChanged: (val) {
                 isEmpty();
-                print("CHANGES MADE!");
               },
               textInputAction: TextInputAction.newline,
               maxLines: null,
@@ -197,7 +196,7 @@ class _UserMessageState extends State<UserMessage> {
               decoration: InputDecoration.collapsed(
                 hintText: 'Encourage and Enrich!',
               ))),
-      ColorPicker()
+      // ColorPicker()
     ]);
   }
 }

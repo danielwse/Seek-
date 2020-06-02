@@ -37,7 +37,6 @@ class _NotePageState extends State<NotePage> {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 20.0),
       itemBuilder: (context, index) => _buildListItem(context, snapshot[index]),
-      // itemBuilder: snapshot.map((data) => _buildListItem(context, data)),
       itemCount: snapshot.length,
     );
   }
@@ -50,12 +49,15 @@ class _NotePageState extends State<NotePage> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.primaries[Random().nextInt(Colors.primaries.length)]),
+          color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+          // boxShadow: [
+          //   BoxShadow
+          // ],
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: ListTile(
-          title: Text(note.title),
-          subtitle: Text(note.message),
+          title: Text(note.title, style: TextStyle(fontSize:15)),
+          subtitle: Text(note.message, style:TextStyle(fontSize:15)),
         ),
       ),
     );
