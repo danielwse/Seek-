@@ -105,8 +105,21 @@ class _UserMessageState extends State<UserMessage> {
     super.dispose();
   }
 
+  bool isButtonEnabled = false;
+
   @override
   Widget build(BuildContext context) {
+    bool isEmpty() {
+      setState(() {
+        if ((messageController.text.isEmpty) || (titleController.text.isEmpty)) {
+          isButtonEnabled = false;
+        } else {
+          isButtonEnabled = true;
+        }
+      });
+      return isButtonEnabled;
+    }
+
     return Column(children: <Widget>[
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -125,14 +138,14 @@ class _UserMessageState extends State<UserMessage> {
           Column(
             children: <Widget>[
               FlatButton(
-                  onPressed: () {
+                  onPressed: isButtonEnabled ? () {
                     firestoreInstance.collection("wall").add({
                       "message": messageController.text,
                       "title": titleController.text,
                       "timestamp": FieldValue.serverTimestamp()
                     });
                     Navigator.of(context).pop();
-                  },
+                  } : null,
                   child: Icon(Icons.check, size: 40)),
               Text('Post')
             ],
@@ -148,6 +161,9 @@ class _UserMessageState extends State<UserMessage> {
               color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
           child: TextField(
               controller: titleController,
+              onChanged: (val) {
+                isEmpty();
+              },
               textInputAction: TextInputAction.newline,
               maxLines: null,
               autocorrect: true,
@@ -167,6 +183,10 @@ class _UserMessageState extends State<UserMessage> {
               color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
           child: TextField(
               controller: messageController,
+              onChanged: (val) {
+                isEmpty();
+                print("CHANGES MADE!");
+              },
               textInputAction: TextInputAction.newline,
               maxLines: null,
               autocorrect: true,
