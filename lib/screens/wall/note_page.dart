@@ -43,17 +43,23 @@ class _NotePageState extends State<NotePage> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final note = Note.fromSnapshot(data);
-
+    
     return Padding(
       key: ValueKey(note.message),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          // boxShadow: [
-          //   BoxShadow
-          // ],
-          borderRadius: BorderRadius.circular(5.0),
+          color: new Color(data["color"]),
+          // color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0,3),
+            )
+          ],
+          borderRadius: BorderRadius.circular(15.0),
         ),
         child: ListTile(
           title: Text(note.title, style: TextStyle(fontSize:15)),
