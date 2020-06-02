@@ -1,22 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:seek/screens/chat/auth.dart';
 import 'holdingPage.dart';
 
 class CounsellorSignIn extends StatefulWidget {
-  CounsellorSignIn({Key key, this.title}) : super(key: key);
-//hi
-  final String title;
+  //const CounsellorSignIn({this.onSignedIn});
+  final VoidCallback onSignedIn;
+  final BaseAuth auth;
+
+  CounsellorSignIn({
+    @required this.auth,
+    this.onSignedIn,
+  });
 
   @override
   _CounsellorSignInState createState() => _CounsellorSignInState();
 }
 
+enum FormType {
+  login,
+}
+
 class _CounsellorSignInState extends State<CounsellorSignIn> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String _email, _password;
   TextStyle style = GoogleFonts.chelseaMarket(
     fontSize: 20,);
+  FormType _formType = FormType.login;
+
+  bool validateAndSave() {
+    final FormState form = formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> validateAndSubmit() async {
+    if (validateAndSave()) {
+      print(_password);
+      try {
+        //await widget.auth.signInWithEmailAndPassword(_email, _password);
+        
+        if (_formType == FormType.login) {
+          final User userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
+          print('Signed in: $userId.uid');
+          Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HoldingPage(auth: widget.auth,)));
+        }
+        widget.onSignedIn();
+      } catch (e) {
+        print("E");
+        print('Error: $e');
+      }
+    }
+  }
+
+  /*void moveToRegister() {
+    formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.register;
+    });
+  }*/
+
+  void moveToLogin() {
+    formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.login;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +136,7 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
       child: MaterialButton(
         minWidth: 170,
         padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        onPressed: logIn,
+        onPressed: validateAndSubmit,
         child: Text("Login",
             textAlign: TextAlign.center,
             style: GoogleFonts.indieFlower(
@@ -103,7 +156,7 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Container(
             color: Colors.white,
             child: Padding(
@@ -132,7 +185,7 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
     );
   }
 
-  Future<void> logIn() async {
+  /*Future<void> logIn() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       try {
@@ -145,5 +198,5 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
         print(e.message);
       }
     }
-  }
+  }*/
 }
