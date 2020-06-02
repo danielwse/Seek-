@@ -23,7 +23,7 @@ class _NotePageState extends State<NotePage> {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('wall').snapshots(),
+      stream: Firestore.instance.collection('wall').orderBy("timestamp", descending: true).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 
@@ -76,3 +76,4 @@ class Note {
   // @override
   // String toString() => "Note<$name:$numberOfAs>";
 }
+
