@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seek/screens/chat/chat_sign_in.dart';
 import 'screens/homePage.dart';
 import 'screens/wall/note_page.dart';
+import 'screens/tips/tips_homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,12 +21,13 @@ class _MyAppState extends State<MyApp> {
     HomePage(),
     NotePage(),
     ChatSignIn(),
-    ChatSignIn()
+    TipsPage(),
   ];
   @override 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: BottomNavigationBar(
