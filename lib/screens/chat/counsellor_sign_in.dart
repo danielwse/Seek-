@@ -1,16 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:seek/screens/chat/auth.dart';
 import 'holdingPage.dart';
 
 class CounsellorSignIn extends StatefulWidget {
-  //const CounsellorSignIn({this.onSignedIn});
-  final VoidCallback onSignedIn;
   final BaseAuth auth;
 
   CounsellorSignIn({
     @required this.auth,
-    this.onSignedIn,
   });
 
   @override
@@ -41,15 +39,19 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
     if (validateAndSave()) {
       print(_password);
       try {
-        //await widget.auth.signInWithEmailAndPassword(_email, _password);
-        
+
         if (_formType == FormType.login) {
           final User userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
           print('Signed in: $userId.uid');
+          print(userId.uid);
+          Firestore.instance.collection('counsellors').document(userId.uid).setData({
+            "email": _email,
+            "timestamp": FieldValue.serverTimestamp()
+          });
+
           Navigator.push(
             context, MaterialPageRoute(builder: (context) => HoldingPage(auth: widget.auth,)));
         }
-        widget.onSignedIn();
       } catch (e) {
         print("E");
         print('Error: $e');
