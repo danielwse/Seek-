@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:seek/screens/chat/chat_page.dart';
 import 'package:seek/screens/chat/chat_sign_in.dart';
+import 'package:seek/screens/chat/user_sign_in_form.dart';
 import 'screens/homePage.dart';
 import 'screens/wall/note_page.dart';
 
@@ -15,47 +17,43 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-   int _selectedPage = 0;
-  final _pageOptions = [
-    HomePage(),
-    NotePage(),
-    ChatSignIn(),
-    ChatSignIn()
-  ];
-  @override 
+  int _selectedPage = 0;
+  final _pageOptions = [HomePage(), NotePage(), ChatSignIn(), ChatSignIn()];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-      body: _pageOptions[_selectedPage],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedPage,
-        onTap: (int index) { 
-          setState(() {
-            _selectedPage = index;
-          });
-        },
-        items:[ 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-           BottomNavigationBarItem(
-            icon: Icon(Icons.create),
-            title: Text('Connect'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text('Chat'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tag_faces),
-            title: Text('Tips'),
-          ),
-        ],
-        selectedItemColor: Colors.amber[800],
-    ),
-            ));
-}
+        body: _pageOptions[_selectedPage],
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedPage,
+          onTap: (int index) {
+            setState(() {
+              _selectedPage = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.create),
+              title: Text('Connect'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              title: Text('Chat'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.tag_faces),
+              title: Text('Tips'),
+            ),
+          ],
+          selectedItemColor: Colors.amber[800],
+        ),
+      ),
+    );
+  }
 }

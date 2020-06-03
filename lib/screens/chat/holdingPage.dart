@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:seek/screens/chat/chat_page.dart';
 import 'auth.dart';
 
 class HoldingPage extends StatefulWidget {
@@ -78,6 +79,21 @@ class _HoldingPageState extends State<HoldingPage> {
           'Seek',
           style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
         ),
+        actions: <Widget> [
+          FlatButton.icon(
+            icon: Icon(
+              Icons.exit_to_app, 
+              color: Colors.white,
+            ),
+            label: Text(
+              "Logout",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.indieFlower(fontSize: 15, color: Colors.white),
+              //color: Colors.white, fontWeight: FontWeight.bold)
+            ),
+            onPressed: () => _signOut(context),
+          )
+        ],
       ),
       body: _buildBody(context)
       //SingleChildScrollView(
@@ -131,19 +147,25 @@ class _HoldingPageState extends State<HoldingPage> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           print("NA");
-          return Column(
-            children: <Widget> [
-              CircularProgressIndicator(),
-              Text(
-                'Matching you with a Seeker...',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSansCondensed(
-                    fontSize: 30, color: Colors.black),
-              ),
-            ]
-          );//LinearProgressIndicator();
+          return Container( 
+            alignment: Alignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                CircularProgressIndicator(),
+                Text(
+                  'Matching you with a Seeker...',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.openSansCondensed(
+                      fontSize: 30, color: Colors.black),
+                ),
+              ]
+            ),
+          );
         } else {
           print("DA");
+          print(snapshot);
           return _buildList(context, snapshot.data.documents);
         }
       },
@@ -178,15 +200,23 @@ class _HoldingPageState extends State<HoldingPage> {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: ListTile(
-          title: Text(chatRoom.chatId.toString(), style: TextStyle(fontSize: 15)),
+          title: Text(chatRoom.chatId, style: TextStyle(fontSize: 15)),
+          onTap: () => _goToChat(chatRoom.chatId),
         ),
       ),
     );
   }
+
+  void _goToChat(String id) {
+      Navigator.of(context).push(MaterialPageRoute<void>(
+      fullscreenDialog: true,
+      builder: (context) => Chat(id: "COUNSELLOR", chatId: "id"),
+    ));
+  }
 }
 
 class ChatRoom {
-  final int chatId;
+  final String chatId;
   final DocumentReference reference;
 
   ChatRoom.fromMap(Map<String, dynamic> map, {this.reference})

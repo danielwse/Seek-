@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:seek/screens/chat/chat_page.dart';
 
 class UserSignIn extends StatefulWidget {
   @override
@@ -375,31 +376,59 @@ class _UserSignInState extends State<UserSignIn> {
       "If you feel you may be at immediate risk of being harmed, call 999 or approach the nearest police station. Alternatively, call the 24-hour SOS hotline at 1800-221 4444.";
 
   void _enterChat() {
+    String _chatName = _name;
+    String _chatId = _phone.toString();
+    String _chatDistress = _showDistress.toString();
+    setState(() {
+      _nameController.clear();
+      _phoneController.clear();
+      _phoneValid = false;
+      _nameValid = false;
+      _showNameError = false;
+      _showPhoneError = false;
+      _showSOS = false;
+      _showAbuse = false;
+      _showDistress = false;
+      _suicideQnsYes = false;
+      _suicideQnsNo = false;
+      _suicideAns = false;
+      _abuseQnsYes = false;
+      _abuseQnsNo = false;
+      _abuseAns = false;
+      _distressQnsYes = false;
+      _distressQnsNo = false;
+      _distressAns = false;
+    });
+    Firestore.instance
+      .collection('newChat')
+      .document(_chatId)
+      .setData({
+        "chatId": _chatId,
+        "time": FieldValue.serverTimestamp(),
+    });
     Firestore.instance
       .collection('chat')
-      .document(_phone)
+      .document(_chatId)
       .setData({
-        "name": _name,
-        "phone": _phone,
-        "distress": _showDistress,
-        "time": FieldValue.serverTimestamp()
+        "name": _chatName,
+        "phone": _chatId,
+        "distress": _chatDistress,
+        "time": FieldValue.serverTimestamp(),
     });
     Firestore.instance
         .collection('chat')
-        .document(_phone)
-        .collection('Messages')
+        .document(_chatId)
+        .collection('messages')
         .document('init')
         .setData({
-          "from": "",
+          "from": null,
           "message": "Welcome to Seek chat, a counsellor or trained practioner will join you shortly. Thank you for your patience.",
           "time": FieldValue.serverTimestamp(),
         });
-    /*
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
-      builder: (context) => null//(),
+      builder: (context) => Chat(id: _chatId, chatId: _chatId),//Chat(id: "12345678", peerAvatar: "JONNIE"),
     ));
-    */
   }
 }
 // try {
