@@ -205,6 +205,7 @@ class _HoldingPageState extends State<HoldingPage> {
       key: ValueKey(chatRoom.chatId),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
         alignment: Alignment.topLeft,
         height: 60.0,
         decoration: BoxDecoration(

@@ -57,6 +57,7 @@ class _NotePageState extends State<NotePage> {
       key: ValueKey(note.message),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
         decoration: BoxDecoration(
           color: new Color(data["color"]),
           // color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
