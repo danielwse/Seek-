@@ -6,7 +6,8 @@ import 'package:seek/screens/tips/helppages/isolation.dart';
 import 'package:seek/screens/tips/helppages/fearful.dart';
 import 'package:seek/screens/tips/helppages/anxious.dart';
 import 'package:seek/screens/tips/helppages/negative.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:seek/screens/tips/helppages/abuse.dart';
 class TipsPage extends StatefulWidget {
   TipsPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -21,7 +22,7 @@ class _TipsPageState extends State<TipsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'I\'m Feeling...',
+          'I\'m Dealing With...',
           style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
         ),
       ),
@@ -41,7 +42,7 @@ class _TipsPageState extends State<TipsPage> {
               },
               backgroundColor: Colors.blue[200],
               buttonText: Text(
-                "Stressed",
+                "Stress",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               textColor: Colors.black,
@@ -55,7 +56,7 @@ class _TipsPageState extends State<TipsPage> {
               },
               backgroundColor: Colors.pink[200],
               buttonText: Text(
-                "Isolated",
+                "Isolation & Loneliness",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               textColor: Colors.black,
@@ -69,7 +70,7 @@ class _TipsPageState extends State<TipsPage> {
               },
               backgroundColor: Colors.purple[300],
               buttonText: Text(
-                "Fearful",
+                "Fear",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               textColor: Colors.black,
@@ -83,7 +84,7 @@ class _TipsPageState extends State<TipsPage> {
               },
               backgroundColor: Colors.green[200],
               buttonText: Text(
-                "Anxious",
+                "Anxiety",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               textColor: Colors.black,
@@ -97,13 +98,27 @@ class _TipsPageState extends State<TipsPage> {
               },
               backgroundColor: Colors.cyan[300],
               buttonText: Text(
-                "Negative",
+                "Negativity",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               textColor: Colors.black,
             ),
-            SizedBox(height: 30),
+            SimpleRoundButton(
+              onPressed: () {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Abuse()),
+                );
+              },
+              backgroundColor: Colors.red[300],
+              buttonText: Text(
+                "Abuse",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              textColor: Colors.black,
+            ),
           ])),
+          
     );
   }
 }
@@ -147,3 +162,64 @@ class SimpleRoundButton extends StatelessWidget {
     );
   }
 }
+
+ 
+  Widget articleProvider(
+      String articleUrl, String imgUrl, String articleName, String source) {
+        title(title) {
+    return Text(
+      title,
+      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+ 
+  subtitle(subTitle) {
+    return Text(
+      subTitle,
+      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w200, color: Colors.grey[800]),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+ 
+  thumbnail(imageUrl) {
+    return Padding(
+      padding: EdgeInsets.only(left: 15.0),
+      child: Image.network(
+        imageUrl,
+        height: 50,
+        width: 70,
+        alignment: Alignment.center,
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+ 
+  rightIcon() {
+    return Icon(
+      Icons.keyboard_arrow_right,
+      color: Colors.grey,
+      size: 30.0,
+    );
+  }
+    return Card(
+      child:ListTile(
+          title: title(articleName),
+          subtitle: subtitle(source),
+          leading: thumbnail(imgUrl),
+          trailing: rightIcon(),
+          contentPadding: EdgeInsets.all(5.0),
+          onTap: () => _launchURL(articleUrl)
+        ));
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false, forceWebView: true);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+

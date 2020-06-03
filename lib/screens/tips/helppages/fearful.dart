@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:seek/screens/tips/tips_homepage.dart';
 
 class Fearful extends StatefulWidget {
   Fearful({Key key, this.title}) : super(key: key);
@@ -12,59 +12,59 @@ class Fearful extends StatefulWidget {
 }
 
 class _FearfulState extends State<Fearful> {
-  Widget articleProvider(
-      String articleUrl, String imgUrl, String articleName) {
-    return SizedBox(
-        width: double.infinity,
-        height: 100,
-        child: FlatButton(
-          shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.purple[300],
-            onPressed: () {
-              _launchURL(articleUrl);
-            },
-            child: Row(children: <Widget>[
-              SizedBox(
-                  width: 150,
-                  child: ClipRRect(
-                      child: Image.network(imgUrl),
-                      borderRadius: BorderRadius.circular(200))),
-                      SizedBox(
-            width: 20,
-          ),
-          Expanded(
-              child: Text(
-                articleName,
-            style: TextStyle(fontSize: 20),
-          ))
-            ])));
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: false, forceWebView: true);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.purple[300],
           title: Text(
             'Tips',
             style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
           ),
         ),
-        body: Center(
-            child: Column(children: <Widget>[
+        body: SingleChildScrollView(
+            child: Center(
+                child: Column(children: <Widget>[
           articleProvider(
-              'https://www.healthhub.sg/live-healthy/1713/thrive-not-just-survive-at-the-workplace',
-              'https://www.healthhub.sg/sites/assets/Assets/Categories/Mind%20N%20Balance/the-tailor-who-talks-about-denim.jpg',
-              'Thriving at Work'),
-          
-        ])));
+              'https://medium.com/@seanclarke974/the-story-of-overcoming-my-fear-944985cd22b2',
+              'https://miro.medium.com/max/1120/1*NxTATHSLR4OHNYV7P58Zhg.png',
+              'The Story Of Overcoming My Fear',
+              'Medium'),
+          articleProvider(
+              'https://www.healthhub.sg/live-healthy/1453/top-up-your-happiness',
+              'https://www.healthhub.sg/sites/assets/Assets/Categories/Mind%20N%20Balance/two-young-asian-female-friends-walking-on-the-beach.jpg',
+              'The Keys to Happiness: Mindfulness and Positive Experiences',
+              'Health Hub'),
+          articleProvider(
+              'https://www.psycom.net/facing-your-fear',
+              'https://static.psycom.net/wp-content/uploads/2018/08/casey-horner-460825-unsplash-1280x429.jpg',
+              'Facing Your Fears: Tips to Overcoming Anxiety and Phobias',
+              'PSYCOM'),
+          articleProvider(
+              'https://www.psychologytoday.com/us/blog/transcending-the-past/201708/coping-fear-face-it-understand-it-overcome-it',
+              'https://cdn.psychologytoday.com/sites/default/files/styles/image-article_inline_full_caption/public/field_blog_entry_images/2017-08/buddha-mara.jpg?itok=xSEEHv2w',
+              'Coping with Fear: Face It, Understand It, Overcome It',
+              'Psychology Today'),
+          articleProvider(
+              'https://www.theguardian.com/lifeandstyle/2019/apr/08/how-i-overcame-my-fear-of-public-speaking-and-learned-to-love-it',
+              'https://i.guim.co.uk/img/media/118868236dc79517e16e5b2058ceef0b4a30edb4/0_222_4983_2990/master/4983.jpg?width=605&quality=45&auto=format&fit=max&dpr=2&s=81512c595734b4c04b17904dbeccd78d',
+              'How I overcame my fear of public speaking – and learned to love it',
+              'The Guardian'),
+          articleProvider(
+              'https://littlegreenseedling.com/2018/11/07/overcoming-fear-self-doubt/',
+              'https://i0.wp.com/littlegreenseedling.com/wp-content/uploads/2018/11/abyss-2036211_1920.jpg?resize=960%2C540&ssl=1',
+              'How I Overcame Fear to Start Living My Best Life',
+              'Little Green Seedling'),
+          articleProvider(
+              'https://www.jackcanfield.com/blog/overcoming-fear/',
+              'https://miro.medium.com/max/7016/1*H2pMY15Sxdwj8pzIQWeUSg.jpeg',
+              'How to Overcome the Fears That You Create',
+              'JackCanfield'),
+          articleProvider(
+              'https://www.psychologytoday.com/us/blog/insight-therapy/201009/overcoming-fear-the-only-way-out-is-through',
+              'https://lh3.googleusercontent.com/proxy/-iHOUhwcnDgeqsNNx06Zs63FkjMQyEDAfD9EXTqAUnGmfSvj6gVsNgLHXIuhxg8EcCp8fDf-dWePE-dWVznj_C2blkWaJM6-3repqyGFQXj-c3eJiE_2QUrbukMIIW5ZstbyGw',
+              'Overcoming Fear: The Only Way Out is Through',
+              'Psychology Today')
+        ]))));
   }
 }
