@@ -142,6 +142,7 @@ class _HoldingPageState extends State<HoldingPage> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
           .collection('newChat')
+          //.orderBy("distress", descending: true)
           .orderBy("time", descending: true)
           .snapshots(),
       builder: (context, snapshot) {
@@ -153,20 +154,31 @@ class _HoldingPageState extends State<HoldingPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                CircularProgressIndicator(),
+                Text(
+                  'Please hold on',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.openSansCondensed(
+                      fontSize: 30, color: Colors.black),
+                ),
                 Text(
                   'Matching you with a Seeker...',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.openSansCondensed(
                       fontSize: 30, color: Colors.black),
                 ),
+                SizedBox(height: 20.0),
+                CircularProgressIndicator(),
               ]
             ),
           );
         } else {
           print("DA");
           print(snapshot);
-          return _buildList(context, snapshot.data.documents);
+          List<DocumentSnapshot> data = snapshot.data.documents;
+          data.sort((y,x) {
+            return x['distress'].compareTo(y['distress']);});
+          return _buildList(context, data);
+          // return _buildList(context, snapshot.data.documents);
         }
       },
     );
@@ -200,7 +212,8 @@ class _HoldingPageState extends State<HoldingPage> {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: ListTile(
-          title: Text(chatRoom.chatId, style: TextStyle(fontSize: 15)),
+          title: Text((chatRoom.distress == "true" ? "[Priority] Chat No: " : "Chat No: " )+ chatRoom.chatId.hashCode.toString(), style: TextStyle(fontSize: 15)),
+          subtitle: Text(chatRoom.distress == "true" ? "Seeker indicated feeling overwhelming distress" : "", style: TextStyle(fontSize: 12) ),
           onTap: () => _goToChat(chatRoom.chatId),
         ),
       ),
@@ -217,11 +230,14 @@ class _HoldingPageState extends State<HoldingPage> {
 
 class ChatRoom {
   final String chatId;
+  final String distress;
   final DocumentReference reference;
 
   ChatRoom.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['chatId'] != null),
-        chatId = map['chatId'];
+        assert(map['distress'] != null),
+        chatId = map['chatId'],
+        distress = map['distress'];
 
   ChatRoom.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);

@@ -404,6 +404,7 @@ class _UserSignInState extends State<UserSignIn> {
       .document(_chatId)
       .setData({
         "chatId": _chatId,
+        "distress": _chatDistress,
         "time": FieldValue.serverTimestamp(),
     });
     Firestore.instance
