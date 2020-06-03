@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:seek/screens/chat/auth.dart';
+import 'package:seek/screens/chat/root_page.dart';
 import 'user_sign_in_form.dart';
-import 'counsellor_sign_in.dart';
 
 class ChatSignIn extends StatelessWidget {
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          'Have a Chat',
-          style: TextStyle(fontSize: 30.0, wordSpacing: 5.0),
+          'Have A Chat',
+          style: GoogleFonts.montserrat(
+            fontSize: 32,
+            color: Colors.white
+          ) 
+          // TextStyle(fontSize: 30.0, wordSpacing: 5.0),
         ),
       ),
       body: _bodyContent(context),
@@ -49,7 +55,6 @@ class ChatSignIn extends StatelessWidget {
     return Stack(
       overflow: Overflow.visible,
       children: <Widget>[
-        SizedBox(height: 100),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,7 +73,7 @@ class ChatSignIn extends StatelessWidget {
             Container(
               child: FlatButton( 
                 child: Text(
-                  'Click here to login if you are a counsellor or volunteer',
+                  'Click here to login if you are a counsellor or trained personnel',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -94,7 +99,9 @@ class ChatSignIn extends StatelessWidget {
   void _counsellorSignIn(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
-      builder: (context) => CounsellorSignIn(),
+      builder: (context) => RootPage(
+        auth: Auth(),
+      ),
     ));
   }
 }

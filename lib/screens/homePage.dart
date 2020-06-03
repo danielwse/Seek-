@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'chat/user_sign_in_form.dart';
 
 class HomePage extends StatefulWidget {
@@ -54,11 +53,13 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Seek',
-          style: GoogleFonts.indieFlower(
-              fontSize: 42,
-              color: Colors.black),
+          style: GoogleFonts.montserrat(
+              fontSize: 32,
+              color: Colors.white
+              ),
         ),
       ),
       body: SingleChildScrollView(
