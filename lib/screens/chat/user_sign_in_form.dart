@@ -80,35 +80,55 @@ class _UserSignInState extends State<UserSignIn> {
                     padding: EdgeInsets.all(2.0),
                   ),
                 ),
-                Row(
+                Wrap(
+                  spacing: 8.0, // gap between adjacent chips
+                  runSpacing: 4.0, // gap between lines
+                  direction: Axis.horizontal,
                   children: <Widget>[
                     Spacer(),
-                    RaisedButton(
-                      color: Colors.amber,
-                      child: Text("Back"),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    Spacer(),
-                    RaisedButton(
-                      color: Colors.green,
-                      child: Text(
-                        (_showSOS || _showAbuse)
-                            ? "Please direct me \nto SOS hotline"
-                            : "Prefer to talk \nthrough phone",
-                        textAlign: TextAlign.center,
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(color: Colors.white)),
+                            color: Colors.white,
+                            child: Text("Back"),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          SizedBox(width: 30),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(color: Colors.white)),
+                            color: Colors.white,
+                            child: Text(
+                              (_showSOS || _showAbuse)
+                                  ? "Please direct me \nto SOS hotline"
+                                  : "Please direct me to \nNatonal Care hotline",
+                              textAlign: TextAlign.center,
+                            ),
+                            onPressed: () => _call(),
+                          ),
+                        ],
                       ),
-                      onPressed: () => _call(),
                     ),
-                    Spacer(),
-                    Offstage(
-                      offstage: !(_suicideAns && _abuseAns && _distressAns),
-                      child: RaisedButton(
-                        color: Colors.blue,
-                        child: Text(
-                          "Enter\nSeek chat",
-                          textAlign: TextAlign.center,
+                    Center(
+                      child: Offstage(
+                        offstage: !(_suicideAns && _abuseAns && _distressAns),
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(color: Colors.white)),
+                          color: Colors.white,
+                          child: Text(
+                            "Enter Seek chat",
+                            textAlign: TextAlign.center,
+                          ),
+                          onPressed: () => _enterChat(),
                         ),
-                        onPressed: () => _enterChat(),
                       ),
                     ),
                     Spacer(),
@@ -399,21 +419,15 @@ class _UserSignInState extends State<UserSignIn> {
       _distressQnsNo = false;
       _distressAns = false;
     });
-    Firestore.instance
-      .collection('newChat')
-      .document(_chatId)
-      .setData({
-        "chatId": _chatId,
-        "time": FieldValue.serverTimestamp(),
+    Firestore.instance.collection('newChat').document(_chatId).setData({
+      "chatId": _chatId,
+      "time": FieldValue.serverTimestamp(),
     });
-    Firestore.instance
-      .collection('chat')
-      .document(_chatId)
-      .setData({
-        "name": _chatName,
-        "phone": _chatId,
-        "distress": _chatDistress,
-        "time": FieldValue.serverTimestamp(),
+    Firestore.instance.collection('chat').document(_chatId).setData({
+      "name": _chatName,
+      "phone": _chatId,
+      "distress": _chatDistress,
+      "time": FieldValue.serverTimestamp(),
     });
     Firestore.instance
         .collection('chat')
@@ -421,13 +435,16 @@ class _UserSignInState extends State<UserSignIn> {
         .collection('messages')
         .document('init')
         .setData({
-          "from": null,
-          "message": "Welcome to Seek chat, a counsellor or trained practioner will join you shortly. Thank you for your patience.",
-          "time": FieldValue.serverTimestamp(),
-        });
+      "from": null,
+      "message":
+          "Welcome to Seek chat, a counsellor or trained practioner will join you shortly. Thank you for your patience.",
+      "time": FieldValue.serverTimestamp(),
+    });
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
-      builder: (context) => Chat(id: _chatId, chatId: _chatId),//Chat(id: "12345678", peerAvatar: "JONNIE"),
+      builder: (context) => Chat(
+          id: _chatId,
+          chatId: _chatId), //Chat(id: "12345678", peerAvatar: "JONNIE"),
     ));
   }
 }

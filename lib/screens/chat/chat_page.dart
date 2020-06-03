@@ -215,7 +215,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ? Container(
                     child: Text(
                       DateFormat('dd MMM kk:mm').format(
-                          DateTime.parse(document['time'].toDate().toString()).add(new Duration(hours: 8))),
+                          DateTime.parse(document['time'].toDate().toString()).add(new Duration(hours: 0))),
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 12.0,
