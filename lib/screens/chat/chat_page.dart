@@ -296,8 +296,8 @@ class ChatScreenState extends State<ChatScreen> {
             isLastMessageLeft(index)
                 ? Container(
                     child: Text(
-                      DateFormat('dd MMM kk:mm').format(
-                          DateTime.parse(document['time'].toDate().toString()).add(new Duration(hours: 8))),
+                      DateFormat('dd MMM kk:mm').format(DateTime.fromMillisecondsSinceEpoch(document['time'], isUtc: true)
+                          /*DateTime.parse(document['time'].toDate().toString()).add(new Duration(hours: 8))*/),
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 12.0,
