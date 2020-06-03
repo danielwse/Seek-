@@ -151,9 +151,13 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'Counsellor Login',
-          style: TextStyle(fontSize: 30.0, wordSpacing: 5.0),
+          style: GoogleFonts.montserrat(
+            fontSize: 32,
+            color: Colors.white
+          ),
         ),
       ),
       body: SingleChildScrollView(
