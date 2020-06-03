@@ -255,6 +255,7 @@ class _HoldingPageState extends State<HoldingPage> {
   final String _standard = "Chat No: ";
 
   void _goToChat(String id) {
+    Firestore.instance.collection('newChat').document(id).delete();
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
       builder: (context) => Chat(id: "COUNSELLOR", chatId: id),

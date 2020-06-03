@@ -133,7 +133,7 @@ class Chat extends StatelessWidget {
         "time": FieldValue.serverTimestamp(),
       });
       Firestore.instance.collection('chat').document(chatId).delete();
-      Firestore.instance.collection('newChat').document(chatId).delete();
+      //Firestore.instance.collection('newChat').document(chatId).delete();
       Navigator.of(context).pop();
     } catch (e) {
       print(e.toString());
@@ -415,7 +415,7 @@ class ChatScreenState extends State<ChatScreen> {
         "time": FieldValue.serverTimestamp(),
       });
       Firestore.instance.collection('chat').document(chatId).delete();
-      Firestore.instance.collection('newChat').document(chatId).delete();
+      //Firestore.instance.collection('newChat').document(chatId).delete();
       Navigator.of(context).pop();
     } catch (e) {
       print(e.toString());
