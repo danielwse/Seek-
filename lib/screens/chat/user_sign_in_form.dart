@@ -86,7 +86,7 @@ class _UserSignInState extends State<UserSignIn> {
                   runSpacing: 4.0, // gap between lines
                   direction: Axis.horizontal,
                   children: <Widget>[
-                    Spacer(),
+                    SizedBox(height: 10.0),
                     Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +132,6 @@ class _UserSignInState extends State<UserSignIn> {
                         ),
                       ),
                     ),
-                    Spacer(),
                   ],
                 ),
               ],
