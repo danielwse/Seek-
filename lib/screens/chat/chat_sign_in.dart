@@ -68,7 +68,7 @@ class ChatSignIn extends StatelessWidget {
             Container(
               child: FlatButton( 
                 child: Text(
-                  'Click here to login if you are a counsellor or volunteer',
+                  'Click here to login if you are a counsellor or trained personnel',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,

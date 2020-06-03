@@ -80,35 +80,55 @@ class _UserSignInState extends State<UserSignIn> {
                     padding: EdgeInsets.all(2.0),
                   ),
                 ),
-                Row(
+                Wrap(
+                  spacing: 8.0, // gap between adjacent chips
+                  runSpacing: 4.0, // gap between lines
+                  direction: Axis.horizontal,
                   children: <Widget>[
                     Spacer(),
-                    RaisedButton(
-                      color: Colors.amber,
-                      child: Text("Back"),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    Spacer(),
-                    RaisedButton(
-                      color: Colors.green,
-                      child: Text(
-                        (_showSOS || _showAbuse)
-                            ? "Please direct me \nto SOS hotline"
-                            : "Prefer to talk \nthrough phone",
-                        textAlign: TextAlign.center,
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(color: Colors.white)),
+                            color: Colors.white,
+                            child: Text("Back"),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          SizedBox(width: 30),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(color: Colors.white)),
+                            color: Colors.white,
+                            child: Text(
+                              (_showSOS || _showAbuse)
+                                  ? "Please direct me \nto SOS hotline"
+                                  : "Please direct me to \nNatonal Care hotline",
+                              textAlign: TextAlign.center,
+                            ),
+                            onPressed: () => _call(),
+                          ),
+                        ],
                       ),
-                      onPressed: () => _call(),
                     ),
-                    Spacer(),
-                    Offstage(
-                      offstage: !(_suicideAns && _abuseAns && _distressAns),
-                      child: RaisedButton(
-                        color: Colors.blue,
-                        child: Text(
-                          "Enter\nSeek chat",
-                          textAlign: TextAlign.center,
+                    Center(
+                      child: Offstage(
+                        offstage: !(_suicideAns && _abuseAns && _distressAns),
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(color: Colors.white)),
+                          color: Colors.white,
+                          child: Text(
+                            "Enter Seek chat",
+                            textAlign: TextAlign.center,
+                          ),
+                          onPressed: () => _enterChat(),
                         ),
-                        onPressed: () => _enterChat(),
                       ),
                     ),
                     Spacer(),
@@ -178,6 +198,12 @@ class _UserSignInState extends State<UserSignIn> {
       textInputAction: TextInputAction.next,
       focusNode: _phoneFocusNode,
       onChanged: (name) => _updateState(),
+      // onChanged: (name) => {
+      //   setState(() {
+      //     _nameValid = _name.isNotEmpty;
+      //     _phoneValid = _phone.isNotEmpty && _phone.length == 8;
+      //   })
+      // },
       onEditingComplete: () => _phoneEditingComplete(),
     );
   }
@@ -378,6 +404,8 @@ class _UserSignInState extends State<UserSignIn> {
   void _enterChat() {
     String _chatName = _name;
     String _chatId = _phone.toString();
+    String _chatSOS = _showSOS.toString();
+    String _chatAbuse = _showAbuse.toString();
     String _chatDistress = _showDistress.toString();
     setState(() {
       _nameController.clear();
@@ -404,7 +432,7 @@ class _UserSignInState extends State<UserSignIn> {
       .document(_chatId)
       .setData({
         "chatId": _chatId,
-        "distress": _chatDistress,
+        "priority": _chatSOS == "true" ? 1 : (_chatAbuse == "true" ? 2 : (_chatDistress == "true" ? 3 : 4)),
         "time": FieldValue.serverTimestamp(),
     });
     Firestore.instance
@@ -423,12 +451,12 @@ class _UserSignInState extends State<UserSignIn> {
         .document('init')
         .setData({
           "from": null,
-          "message": "Welcome to Seek chat, a counsellor or trained practioner will join you shortly. Thank you for your patience.",
+          "message": "Welcome to Seek chat, a counsellor or trained personnel will join you shortly. Thank you for your patience.",
           "time": FieldValue.serverTimestamp(),
         });
     Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
-      builder: (context) => Chat(id: _chatId, chatId: _chatId),//Chat(id: "12345678", peerAvatar: "JONNIE"),
+      builder: (context) => Chat(id: _chatId, chatId: _chatId),
     ));
   }
 }

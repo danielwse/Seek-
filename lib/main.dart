@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seek/screens/chat/chat_page.dart';
 import 'package:seek/screens/chat/chat_sign_in.dart';
-import 'package:seek/screens/chat/user_sign_in_form.dart';
 import 'screens/homePage.dart';
 import 'screens/wall/note_page.dart';
 
