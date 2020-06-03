@@ -108,7 +108,7 @@ class _UserSignInState extends State<UserSignIn> {
                             child: Text(
                               (_showSOS || _showAbuse)
                                   ? "Please direct me \nto SOS hotline"
-                                  : "Please direct me to \nNatonal Care hotline",
+                                  : "Please direct me to \nNational Care hotline",
                               textAlign: TextAlign.center,
                             ),
                             onPressed: () => _call(),
