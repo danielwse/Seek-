@@ -452,7 +452,7 @@ class _UserSignInState extends State<UserSignIn> {
         .document('init')
         .setData({
           "from": null,
-          "message": "Welcome to Seek chat, a counsellor or trained personnel will join you shortly. Thank you for your patience.",
+          "message": "Hi $_chatName! Welcome to Seek chat, a counsellor or trained personnel will join you shortly. Thank you for your patience.",
           "time": FieldValue.serverTimestamp(),
         });
     Navigator.of(context).push(MaterialPageRoute<void>(

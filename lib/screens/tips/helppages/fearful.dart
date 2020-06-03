@@ -16,10 +16,14 @@ class _FearfulState extends State<Fearful> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.purple[300],
           title: Text(
             'Tips',
-            style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
+            style: GoogleFonts.montserrat(
+            fontSize: 32,
+            color: Colors.white
+          ),
           ),
         ),
         body: SingleChildScrollView(

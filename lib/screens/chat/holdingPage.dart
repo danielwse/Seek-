@@ -77,9 +77,13 @@ class _HoldingPageState extends State<HoldingPage> {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text(
             'Seek',
-            style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
+            style: GoogleFonts.montserrat(
+              fontSize: 32,
+              color: Colors.white
+            ),
           ),
           actions: <Widget>[
             FlatButton.icon(

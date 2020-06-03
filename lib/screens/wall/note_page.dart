@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:seek/screens/wall/add_note.dart';
 
 class NotePage extends StatefulWidget {
@@ -13,7 +14,16 @@ class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('Wall')),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Wall',
+          style: GoogleFonts.montserrat(
+            fontSize: 32,
+            color: Colors.white
+          )
+        )
+        ),
       body: _buildBody(context),
       floatingActionButton: AddNote(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

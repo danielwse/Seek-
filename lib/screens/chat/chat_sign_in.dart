@@ -10,9 +10,14 @@ class ChatSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          'Have a Chat',
-          style: TextStyle(fontSize: 30.0, wordSpacing: 5.0),
+          'Have A Chat',
+          style: GoogleFonts.montserrat(
+            fontSize: 32,
+            color: Colors.white
+          ) 
+          // TextStyle(fontSize: 30.0, wordSpacing: 5.0),
         ),
       ),
       body: _bodyContent(context),

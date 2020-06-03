@@ -16,10 +16,14 @@ class _StressedState extends State<Stressed> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.blue[200],
           title: Text(
             'Tips',
-            style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
+            style: GoogleFonts.montserrat(
+              fontSize: 32,
+              color: Colors.white
+            ),
           ),
         ),
         body: SingleChildScrollView(

@@ -8,15 +8,19 @@ class Chat extends StatelessWidget {
   final String id;
   final String chatId;
 
+
   Chat({Key key, @required this.id, @required this.chatId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Chat',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text('Chat',
+          style: GoogleFonts.montserrat(
+            fontSize: 32,
+            color: Colors.white
+          ) 
+          // TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         leading: GestureDetector(

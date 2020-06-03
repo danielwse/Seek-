@@ -23,9 +23,13 @@ class _TipsPageState extends State<TipsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           'I\'m Dealing With...',
-          style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
+          style: GoogleFonts.montserrat(
+            fontSize: 32,
+            color: Colors.white
+          ),
         ),
       ),
       body: SingleChildScrollView(
