@@ -166,7 +166,7 @@ class ChatScreenState extends State<ChatScreen> {
             'from': id,
             // 'idTo': peerId,
             // 'time': DateTime.now().millisecondsSinceEpoch.toString(),
-            'time': DateTime.now().toString(),
+            'time': FieldValue.serverTimestamp(),
             'message': content,
             // 'type': type
           },

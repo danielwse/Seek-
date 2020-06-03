@@ -210,7 +210,7 @@ class _HoldingPageState extends State<HoldingPage> {
   void _goToChat(String id) {
       Navigator.of(context).push(MaterialPageRoute<void>(
       fullscreenDialog: true,
-      builder: (context) => Chat(id: "COUNSELLOR", chatId: "id"),
+      builder: (context) => Chat(id: "COUNSELLOR", chatId: id),
     ));
   }
 }
