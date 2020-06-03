@@ -5,7 +5,7 @@ import 'package:seek/screens/chat/root_page.dart';
 import 'user_sign_in_form.dart';
 
 class ChatSignIn extends StatelessWidget {
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

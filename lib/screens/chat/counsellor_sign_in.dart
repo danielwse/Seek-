@@ -39,6 +39,7 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
     if (validateAndSave()) {
       print(_password);
       try {
+
         if (_formType == FormType.login) {
           final User userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
           print('Signed in: $userId.uid');
@@ -47,6 +48,7 @@ class _CounsellorSignInState extends State<CounsellorSignIn> {
             "email": _email,
             "timestamp": FieldValue.serverTimestamp()
           });
+
           Navigator.push(
             context, MaterialPageRoute(builder: (context) => HoldingPage(auth: widget.auth,)));
         }

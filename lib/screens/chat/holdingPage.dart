@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:seek/screens/chat/chat_page.dart';
 import 'auth.dart';
 
+
 class HoldingPage extends StatefulWidget {
   final BaseAuth auth;
+
 
   HoldingPage({
     @required this.auth,
