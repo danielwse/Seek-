@@ -164,7 +164,8 @@ class ChatScreenState extends State<ChatScreen> {
             'from': id,
             // 'idTo': peerId,
             // 'time': DateTime.now().millisecondsSinceEpoch.toString(),
-            'time': FieldValue.serverTimestamp(),
+            // 'time': FieldValue.serverTimestamp(),
+            'time': DateTime.now().toUtc().millisecondsSinceEpoch,
             'message': content,
             // 'type': type
           },
@@ -180,6 +181,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   Widget buildItem(int index, DocumentSnapshot document) {
     if (document['from'] == id) {
+      print(document['time'].toDate());
       // Right (my message)
       return Container(
         child: Column(
@@ -293,8 +295,8 @@ class ChatScreenState extends State<ChatScreen> {
             isLastMessageLeft(index)
                 ? Container(
                     child: Text(
-                      DateFormat('dd MMM kk:mm').format(
-                          DateTime.parse(document['time'].toDate().toString()).add(new Duration(hours: 8))),
+                      DateFormat('dd MMM kk:mm').format(DateTime.fromMillisecondsSinceEpoch(document['time'], isUtc: true)
+                          /*DateTime.parse(document['time'].toDate().toString()).add(new Duration(hours: 8))*/),
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 12.0,
