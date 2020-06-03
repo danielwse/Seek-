@@ -47,7 +47,7 @@ class _AbuseState extends State<Abuse> {
               'MSF Singapore'),
           articleProvider(
               'https://www.psychologytoday.com/sg/blog/toxic-relationships/201706/the-truth-about-abusers-abuse-and-what-do',
-              'https://lh3.googleusercontent.com/proxy/-iHOUhwcnDgeqsNNx06Zs63FkjMQyEDAfD9EXTqAUnGmfSvj6gVsNgLHXIuhxg8EcCp8fDf-dWePE-dWVznj_C2blkWaJM6-3repqyGFQXj-c3eJiE_2QUrbukMIIW5ZstbyGw',
+              'https://seekvectorlogo.net/wp-content/uploads/2019/07/psychology-today-vector-logo.png',
               'The Truth About Abusers, Abuse, and What to Do',
               'Psychology Today'),
          

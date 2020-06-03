@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:seek/screens/tips/helppages/stressed.dart';
 import 'package:seek/screens/tips/helppages/isolation.dart';
 import 'package:seek/screens/tips/helppages/fearful.dart';
@@ -8,6 +9,7 @@ import 'package:seek/screens/tips/helppages/anxious.dart';
 import 'package:seek/screens/tips/helppages/negative.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:seek/screens/tips/helppages/abuse.dart';
+
 class TipsPage extends StatefulWidget {
   TipsPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -26,11 +28,9 @@ class _TipsPageState extends State<TipsPage> {
           style: GoogleFonts.indieFlower(fontSize: 42, color: Colors.black),
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        child: Center(
           child: Column(
-              //infinite height
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
             SizedBox(height: 10),
             SimpleRoundButton(
@@ -49,7 +49,7 @@ class _TipsPageState extends State<TipsPage> {
             ),
             SimpleRoundButton(
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Isolation()),
                 );
@@ -63,7 +63,7 @@ class _TipsPageState extends State<TipsPage> {
             ),
             SimpleRoundButton(
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Fearful()),
                 );
@@ -77,7 +77,7 @@ class _TipsPageState extends State<TipsPage> {
             ),
             SimpleRoundButton(
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Anxious()),
                 );
@@ -91,7 +91,7 @@ class _TipsPageState extends State<TipsPage> {
             ),
             SimpleRoundButton(
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Negative()),
                 );
@@ -105,7 +105,7 @@ class _TipsPageState extends State<TipsPage> {
             ),
             SimpleRoundButton(
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Abuse()),
                 );
@@ -118,8 +118,7 @@ class _TipsPageState extends State<TipsPage> {
               textColor: Colors.black,
             ),
           ])),
-          
-    );
+    ));
   }
 }
 
@@ -163,10 +162,9 @@ class SimpleRoundButton extends StatelessWidget {
   }
 }
 
- 
-  Widget articleProvider(
-      String articleUrl, String imgUrl, String articleName, String source) {
-        title(title) {
+Widget articleProvider(
+    String articleUrl, String imgUrl, String articleName, String source) {
+  title(title) {
     return Text(
       title,
       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
@@ -174,21 +172,24 @@ class SimpleRoundButton extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
     );
   }
- 
+
   subtitle(subTitle) {
     return Text(
       subTitle,
-      style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w200, color: Colors.grey[800]),
+      style: TextStyle(
+          fontSize: 14.0, fontWeight: FontWeight.w200, color: Colors.grey[800]),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
   }
- 
+
   thumbnail(imageUrl) {
     return Padding(
       padding: EdgeInsets.only(left: 15.0),
-      child: Image.network(
-        imageUrl,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        placeholder: (context, url) => new CircularProgressIndicator(),
+        errorWidget: (context, url, error) => new Icon(Icons.error),
         height: 50,
         width: 70,
         alignment: Alignment.center,
@@ -196,7 +197,7 @@ class SimpleRoundButton extends StatelessWidget {
       ),
     );
   }
- 
+
   rightIcon() {
     return Icon(
       Icons.keyboard_arrow_right,
@@ -204,22 +205,21 @@ class SimpleRoundButton extends StatelessWidget {
       size: 30.0,
     );
   }
-    return Card(
-      child:ListTile(
+
+  return Card(
+      child: ListTile(
           title: title(articleName),
           subtitle: subtitle(source),
           leading: thumbnail(imgUrl),
           trailing: rightIcon(),
           contentPadding: EdgeInsets.all(5.0),
-          onTap: () => _launchURL(articleUrl)
-        ));
-  }
+          onTap: () => _launchURL(articleUrl)));
+}
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: false, forceWebView: true);
-    } else {
-      throw 'Could not launch $url';
-    }
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url, forceSafariVC: false, forceWebView: true);
+  } else {
+    throw 'Could not launch $url';
   }
-
+}

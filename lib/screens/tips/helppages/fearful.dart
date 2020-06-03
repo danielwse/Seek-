@@ -62,7 +62,7 @@ class _FearfulState extends State<Fearful> {
               'JackCanfield'),
           articleProvider(
               'https://www.psychologytoday.com/us/blog/insight-therapy/201009/overcoming-fear-the-only-way-out-is-through',
-              'https://lh3.googleusercontent.com/proxy/-iHOUhwcnDgeqsNNx06Zs63FkjMQyEDAfD9EXTqAUnGmfSvj6gVsNgLHXIuhxg8EcCp8fDf-dWePE-dWVznj_C2blkWaJM6-3repqyGFQXj-c3eJiE_2QUrbukMIIW5ZstbyGw',
+              'https://seekvectorlogo.net/wp-content/uploads/2019/07/psychology-today-vector-logo.png',
               'Overcoming Fear: The Only Way Out is Through',
               'Psychology Today')
         ]))));

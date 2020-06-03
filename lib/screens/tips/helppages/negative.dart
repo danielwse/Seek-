@@ -47,7 +47,7 @@ class _NegativeState extends State<Negative> {
               'Positive Psychology'),
           articleProvider(
               'https://www.psychologytoday.com/us/blog/in-practice/201802/5-overarching-principles-coping-negative-emotions',
-              'https://lh3.googleusercontent.com/proxy/-iHOUhwcnDgeqsNNx06Zs63FkjMQyEDAfD9EXTqAUnGmfSvj6gVsNgLHXIuhxg8EcCp8fDf-dWePE-dWVznj_C2blkWaJM6-3repqyGFQXj-c3eJiE_2QUrbukMIIW5ZstbyGw',
+              'https://seekvectorlogo.net/wp-content/uploads/2019/07/psychology-today-vector-logo.png',
               '5 Overarching Principles for Coping With Negative Emotions',
               'Psychology Today'),
               articleProvider(
